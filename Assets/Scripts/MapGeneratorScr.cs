@@ -5,7 +5,8 @@ public class MapGeneratorScr : MonoBehaviour
     public enum DrawMode
     {
         NoiseMap,
-        ColorMap
+        ColorMap,
+        Mesh
     }
 
     #region Public Fields
@@ -19,6 +20,11 @@ public class MapGeneratorScr : MonoBehaviour
     public int octaves = 4;
     [Range(0, 1)] public float persistance = 0.5f;
     public float lacunarity = 2f;
+    [Space]
+
+    [Header("Mesh")]
+    public float meshHeightMultiplier = 100f;
+    public AnimationCurve animationCurve;
     [Space]
 
     [Header("PRNG")]
@@ -65,6 +71,10 @@ public class MapGeneratorScr : MonoBehaviour
         else if (dMode == DrawMode.ColorMap)
         {
             display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+        }
+        else if (dMode == DrawMode.Mesh)
+        {
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, animationCurve), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
     }
 
